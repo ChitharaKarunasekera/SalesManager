@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getLoginResult().observe(this, loginResult -> {
             if (loginResult.isSuccess()) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 startActivity(intent);
                 finish();  // Close login activity
             } else {
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                  * Username: SR0004
                  * Password: 12345678
                  */
-                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 startActivity(intent);
                 finish();  // Close login activity
             }
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // navigate to dashboard screen
     private void openDashboard() {
-        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
         startActivity(intent);
         finish();  // Close login activity
     }
