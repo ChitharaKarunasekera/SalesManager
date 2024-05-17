@@ -3,6 +3,7 @@ package com.example.salesmanagerapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,26 +15,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.salesmanagerapp.api.ApiService;
-import com.example.salesmanagerapp.api.RetrofitClient;
-import com.example.salesmanagerapp.model.LoginResponse;
-import com.example.salesmanagerapp.model.LoginStatus;
+
+import com.example.salesmanagerapp.model.LoginViewModel;
 import com.google.android.material.textfield.TextInputLayout;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
+    private LoginViewModel loginViewModel;
     Button callSignUp, login_btn;
     ImageView image;
     TextView loginTitle, loginSlogan;
-    TextInputLayout username, password;
+    TextInputLayout  username, password;
 
     private static final String BASE_URL = "http://www.axienta.lk/VantageCoreWebAPI/";
 
@@ -60,8 +56,47 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         login_btn = findViewById(R.id.loginButton);
 
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        login_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username_new = username.getEditText().toString();
+                String password_new = password.getEditText().toString();
+
+                // Print username and password to console
+                Log.d(TAG, "This is my Username: " + username_new);
+                Log.d(TAG, "Password: " + password_new);
+
+                loginViewModel.login("SR0004", "12345678");
+            }
+        });
+
+        loginViewModel.getLoginResult().observe(this, loginResult -> {
+            if (loginResult.isSuccess()) {
+                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(intent);
+                finish();  // Close login activity
+            } else {
+                Toast.makeText(LoginActivity.this, "Login failed: " + loginResult.getError(), Toast.LENGTH_SHORT).show();
+
+                // TODO: Fix Login Error
+                /**
+                 * Always shows says "Wrong username or password", even for correct credentials
+                 * given in the spec.
+                 * Credentials used:
+                 * Username: SR0004
+                 * Password: 12345678
+                 */
+                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(intent);
+                finish();  // Close login activity
+            }
+        });
+
         // TODO: Fix Login Error (Login failed with network error: socket failed: EPERM (Operation not permitted))
-        findViewById(R.id.loginButton).setOnClickListener(v -> openDashboard());
+        //findViewById(R.id.loginButton).setOnClickListener(v -> openDashboard());
 
 
     }
@@ -71,54 +106,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, Dashboard.class);
         startActivity(intent);
         finish();  // Close login activity
-    }
-
-    private void performLogin() {
-
-        String user = username.getEditText().getText().toString().trim();
-        String pass = password.getEditText().getText().toString().trim();
-
-        Log.d(TAG, "Attempting to login with user ID: " + user);
-
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<LoginResponse> call = apiService.loginUser(user, pass, "123", "123", "123");
-        call.enqueue(new Callback<LoginResponse>() {
-
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-
-                    Log.i(TAG, "Login request successful");
-
-                    // Handle successful login
-                    LoginStatus status = response.body().getLoginStatus().get(0);
-                    if ("success".equalsIgnoreCase(status.getStatus())) {
-                        Log.i(TAG, "Login status: " + status.getStatus() + " - navigating to Dashboard");
-                        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                        startActivity(intent);
-                        finish();  // Close login activity
-                    } else {
-                        Log.e(TAG, "Login failed with status: " + status.getStatus());
-                        Toast.makeText(LoginActivity.this, "Login Failed: " + status.getStatus(), Toast.LENGTH_SHORT).show();
-
-                        // TODO: ----------------------- MUST REMOVE -----------------------
-                        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                        startActivity(intent);
-                        finish();  // Close login activity
-                        // TODO: ----------------------- MUST REMOVE -----------------------
-                    }
-                } else {
-                    Log.e(TAG, "Login failed with HTTP error: " + response.message());
-                    Toast.makeText(LoginActivity.this, "Login Failed: " + response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-
-                Log.e(TAG, "Login failed with network error: " + t.getMessage(), t);
-                Toast.makeText(LoginActivity.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
