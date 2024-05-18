@@ -47,6 +47,14 @@
             android:layout_marginTop="20dp"
             android:text="Open Order Page" />
 
+        <Button
+            android:id="@+id/open_new_order_page_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Open Order Page" />
+
     </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

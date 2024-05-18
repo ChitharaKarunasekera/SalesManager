@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 //                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
 //                startActivity(intent, options.toBundle());
 
-                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                Intent intent = new Intent(MainActivity.this, NewOrder.class);
                 startActivity(intent);
                 finish();
             }
