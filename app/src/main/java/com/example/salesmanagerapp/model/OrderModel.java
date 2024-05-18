@@ -7,6 +7,8 @@ public class OrderModel {
     private double orderValue;
     private double paymentAmount;
     private double balanceAmount;
+    private String customerName;
+
 
     public OrderModel() {
     }
@@ -66,6 +68,13 @@ public class OrderModel {
 
     public void setBalanceAmount(double balanceAmount) {
         this.balanceAmount = balanceAmount;
+    }
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }
 
