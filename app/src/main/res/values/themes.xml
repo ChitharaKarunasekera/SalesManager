@@ -9,4 +9,18 @@
     </style>
 
     <style name="Theme.SalesManagerApp" parent="Base.Theme.SalesManagerApp" />
+
+    <style name="navigationTheme">
+        <item name="colorPrimary">@color/light_primary</item>
+        <item name="colorControlHighlight">@color/light_secondary</item>
+    </style>
+
+
+    <style name="CustomCardShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
 </resources>
