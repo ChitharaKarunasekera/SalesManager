@@ -58,7 +58,6 @@ public class LoginRepository {
 
                     Log.d(TAG, "%%% My response: " + response.toString());
 
-                    // Assuming a successful login response contains some success indicator
                     if (response.toString().contains("success")) {
                         return "success";
                     } else {
