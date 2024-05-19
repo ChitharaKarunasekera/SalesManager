@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:transitionName="logo_text"
         android:fontFamily="sans-serif-medium"
-        android:text="New Order \nCreation"
-        android:textSize="40sp"/>
+        android:text="New Order"
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/loginSlogan"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:text="Seamlessly Manage Your Orders with Ease"
         android:textSize="18sp"
-        android:fontFamily="@font/antic"/>
+        android:fontFamily="@font/antic" />
 
     <Spinner
         android:id="@+id/customerSpinner"
@@ -38,7 +38,6 @@
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:padding="8dp"
-
         tools:ignore="HardcodedText" />
 
     <Spinner
@@ -47,7 +46,6 @@
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:padding="8dp"
-
         tools:ignore="HardcodedText" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -69,20 +67,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Order Value: $0.00"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Payment Amount"-->
-<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Payment Amount"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/paymentAmountEditText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:inputType="numberDecimal" />-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/paymentAmountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/saveOrderButton"
@@ -91,6 +89,5 @@
         android:text="Save Order"
         android:backgroundTint="#000"
         android:textColor="@color/white"
-        android:layout_margin="20dp"/>
-
+        android:layout_margin="20dp" />
 </LinearLayout>

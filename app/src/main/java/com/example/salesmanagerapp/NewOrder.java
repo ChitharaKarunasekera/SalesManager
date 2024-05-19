@@ -37,7 +37,6 @@ public class NewOrder extends AppCompatActivity {
     private List<Customer> customers;
     private List<Item> items;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +52,7 @@ public class NewOrder extends AppCompatActivity {
         itemSpinner = findViewById(R.id.itemSpinner);
         quantityEditText = findViewById(R.id.quantityEditText);
         orderValueTextView = findViewById(R.id.orderValueTextView);
-        //paymentAmountEditText = findViewById(R.id.paymentAmountEditText);
+        paymentAmountEditText = findViewById(R.id.paymentAmountEditText);
         saveOrderButton = findViewById(R.id.saveOrderButton);
 
         databaseDAO = new DatabaseDAO(this);
@@ -114,7 +113,7 @@ public class NewOrder extends AppCompatActivity {
 
             OrderModel order = new OrderModel();
             order.setCustomerId(selectedCustomer.getId());
-            order.setDate("2023-01-01"); // You can replace this with the current date
+            order.setDate("2024-01-01"); // You can replace this with the current date
             order.setOrderValue(orderValue);
             order.setPaymentAmount(paymentAmount);
             order.setBalanceAmount(balanceAmount);

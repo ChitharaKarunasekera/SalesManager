@@ -49,8 +49,6 @@ public class DatabaseDAO {
     // Get all customers
     @SuppressLint("Range")
     public List<Customer> getAllCustomers() {
-
-        Log.d(TAG, "Fetching all customers...");
         List<Customer> customers = new ArrayList<>();
         Cursor cursor = database.query(DatabaseHelper.TABLE_CUSTOMERS, null, null, null, null, null, null);
 
@@ -63,8 +61,6 @@ public class DatabaseDAO {
             } while (cursor.moveToNext());
             cursor.close();
         }
-
-        Log.d(TAG, "Fetched " + customers.size() + " customers");
         return customers;
     }
 
@@ -82,8 +78,6 @@ public class DatabaseDAO {
     // Get all items
     @SuppressLint("Range")
     public List<Item> getAllItems() {
-
-        Log.d(TAG, "Fetching all items...");
         List<Item> items = new ArrayList<>();
         Cursor cursor = database.query(DatabaseHelper.TABLE_ITEMS, null, null, null, null, null, null);
 
@@ -97,23 +91,18 @@ public class DatabaseDAO {
             } while (cursor.moveToNext());
             cursor.close();
         }
-        Log.d(TAG, "Fetched " + items.size() + " items");
         return items;
     }
 
     // Add a new order
     public long addOrder(OrderModel order) {
-
-        Log.d(TAG, "Adding order for customer id: " + order.getCustomerId() + " with order value: " + order.getOrderValue());
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_ORDER_CUSTOMER_ID, order.getCustomerId());
         values.put(DatabaseHelper.COLUMN_ORDER_DATE, order.getDate());
         values.put(DatabaseHelper.COLUMN_ORDER_VALUE, order.getOrderValue());
         values.put(DatabaseHelper.COLUMN_ORDER_PAYMENT_AMOUNT, order.getPaymentAmount());
         values.put(DatabaseHelper.COLUMN_ORDER_BALANCE_AMOUNT, order.getBalanceAmount());
-        long result = database.insert(DatabaseHelper.TABLE_ORDERS, null, values);
-        Log.d(TAG, "Order added with id: " + result);
-        return result;
+        return database.insert(DatabaseHelper.TABLE_ORDERS, null, values);
     }
 
     // Get all orders

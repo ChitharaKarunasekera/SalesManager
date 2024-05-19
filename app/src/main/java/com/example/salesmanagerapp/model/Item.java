@@ -1,5 +1,7 @@
 package com.example.salesmanagerapp.model;
 
+import androidx.annotation.NonNull;
+
 public class Item {
     private int id;
     private String name;
@@ -36,6 +38,13 @@ public class Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+
+        return name;
     }
 }
 
