@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Order Value: $0.00"
+        android:text="Order Value: Rs. 0.00"
         android:textSize="18sp" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -82,12 +82,37 @@
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/saveOrderButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Order"
-        android:backgroundTint="#000"
-        android:textColor="@color/white"
-        android:layout_margin="20dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/cancelOrderButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:backgroundTint="@android:color/darker_gray"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/saveOrderButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save Order"
+            android:backgroundTint="#000"
+            android:textColor="@color/white"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp"/>
+    </LinearLayout>
+
 </LinearLayout>

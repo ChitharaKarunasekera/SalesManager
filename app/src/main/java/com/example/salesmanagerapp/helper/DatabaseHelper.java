@@ -16,6 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_CUSTOMERS = "customers";
     public static final String TABLE_ITEMS = "items";
     public static final String TABLE_ORDERS = "orders";
+    public static final String TABLE_SALES = "sales";
 
     // Customer Table Columns
     public static final String COLUMN_CUSTOMER_ID = "id";
@@ -34,28 +35,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ORDER_PAYMENT_AMOUNT = "payment_amount";
     public static final String COLUMN_ORDER_BALANCE_AMOUNT = "balance_amount";
 
+    // Sales Table Columns
+    public static final String COLUMN_SALES_ID = "id";
+    public static final String COLUMN_SALES_TARGET = "target";
+    public static final String COLUMN_SALES_ACHIEVEMENT = "achievement";
 
-
-    // Create Customer Table
     // SQL statements to create tables
-    private static final String CREATE_TABLE_CUSTOMERS = "CREATE TABLE customers (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT NOT NULL);";
+    private static final String CREATE_TABLE_CUSTOMERS = "CREATE TABLE " + TABLE_CUSTOMERS + " (" +
+            COLUMN_CUSTOMER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_CUSTOMER_NAME + " TEXT NOT NULL);";
 
-    private static final String CREATE_TABLE_ITEMS = "CREATE TABLE items (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT NOT NULL, " +
-            "price REAL NOT NULL);";
+    private static final String CREATE_TABLE_ITEMS = "CREATE TABLE " + TABLE_ITEMS + " (" +
+            COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_ITEM_NAME + " TEXT NOT NULL, " +
+            COLUMN_ITEM_PRICE + " REAL NOT NULL);";
 
-    private static final String CREATE_TABLE_ORDERS = "CREATE TABLE orders (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "customer_id INTEGER NOT NULL, " +
-            "date TEXT NOT NULL, " +
-            "order_value REAL NOT NULL, " +
-            "payment_amount REAL NOT NULL, " +
-            "balance_amount REAL NOT NULL, " +
-            "FOREIGN KEY(customer_id) REFERENCES customers(id));";
+    private static final String CREATE_TABLE_ORDERS = "CREATE TABLE " + TABLE_ORDERS + " (" +
+            COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_ORDER_CUSTOMER_ID + " INTEGER NOT NULL, " +
+            COLUMN_ORDER_DATE + " TEXT NOT NULL, " +
+            COLUMN_ORDER_VALUE + " REAL NOT NULL, " +
+            COLUMN_ORDER_PAYMENT_AMOUNT + " REAL NOT NULL, " +
+            COLUMN_ORDER_BALANCE_AMOUNT + " REAL NOT NULL, " +
+            "FOREIGN KEY(" + COLUMN_ORDER_CUSTOMER_ID + ") REFERENCES " + TABLE_CUSTOMERS + "(" + COLUMN_CUSTOMER_ID + "));";
 
+    private static final String CREATE_TABLE_SALES = "CREATE TABLE " + TABLE_SALES + " (" +
+            COLUMN_SALES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_SALES_TARGET + " REAL NOT NULL, " +
+            COLUMN_SALES_ACHIEVEMENT + " REAL NOT NULL);";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,6 +78,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Items table created");
         db.execSQL(CREATE_TABLE_ORDERS);
         Log.d(TAG, "Orders table created");
+        db.execSQL(CREATE_TABLE_SALES);
+        Log.d(TAG, "Sales table created");
 
         // Optionally, insert initial data into tables
         db.execSQL("INSERT INTO customers (name) VALUES ('John Doe');");
@@ -98,6 +107,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO orders (customer_id, date, order_value, payment_amount, balance_amount) VALUES (5, '2024-05-10', 1200.00, 600.00, 600.00);");
         db.execSQL("INSERT INTO orders (customer_id, date, order_value, payment_amount, balance_amount) VALUES (6, '2024-06-15', 1800.00, 1800.00, 0.00);");
         Log.d(TAG, "Initial data inserted into orders table");
+
+        // Insert initial data into sales table
+        db.execSQL("INSERT INTO sales (target, achievement) VALUES (10000, 8000);");
+        db.execSQL("INSERT INTO sales (target, achievement) VALUES (15000, 12000);");
+        Log.d(TAG, "Initial data inserted into sales table");
     }
 
     @Override
@@ -107,6 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS orders");
         db.execSQL("DROP TABLE IF EXISTS items");
         db.execSQL("DROP TABLE IF EXISTS customers");
+        db.execSQL("DROP TABLE IF EXISTS sales");
         onCreate(db);
     }
 

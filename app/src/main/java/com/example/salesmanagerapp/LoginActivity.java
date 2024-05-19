@@ -86,19 +86,14 @@ public class LoginActivity extends AppCompatActivity {
                  * Always shows says "Wrong username or password", even for correct credentials
                  * given in the spec.
                  * Credentials used:
-                 * Username: SR0004
-                 * Password: 12345678
+                 *  - Username: SR0004
+                 *  - Password: 12345678
                  */
                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 startActivity(intent);
                 finish();  // Close login activity
             }
         });
-
-        // TODO: Fix Login Error (Login failed with network error: socket failed: EPERM (Operation not permitted))
-        //findViewById(R.id.loginButton).setOnClickListener(v -> openDashboard());
-
-
     }
 
     // navigate to dashboard screen

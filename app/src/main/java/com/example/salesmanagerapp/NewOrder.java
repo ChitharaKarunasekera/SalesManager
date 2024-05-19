@@ -1,6 +1,8 @@
 package com.example.salesmanagerapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -19,10 +21,11 @@ import com.example.salesmanagerapp.model.Item;
 import com.example.salesmanagerapp.model.OrderModel;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public class NewOrder extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class NewOrder extends AppCompatActivity {
     private TextView orderValueTextView;
     private TextInputEditText paymentAmountEditText;
     private Button saveOrderButton;
+    private Button cancelOrderButton;
 
     private DatabaseDAO databaseDAO;
     private List<Customer> customers;
@@ -54,6 +58,7 @@ public class NewOrder extends AppCompatActivity {
         orderValueTextView = findViewById(R.id.orderValueTextView);
         paymentAmountEditText = findViewById(R.id.paymentAmountEditText);
         saveOrderButton = findViewById(R.id.saveOrderButton);
+        cancelOrderButton = findViewById(R.id.cancelOrderButton);
 
         databaseDAO = new DatabaseDAO(this);
         databaseDAO.open();
@@ -71,6 +76,25 @@ public class NewOrder extends AppCompatActivity {
 
         // Save order button click listener
         saveOrderButton.setOnClickListener(v -> saveOrder());
+
+//        saveOrderButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveOrder();
+//                Intent intent = new Intent(NewOrder.this, OrderPageActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
+        cancelOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle cancel action
+                finish(); // Closes the current activity and returns to the previous one
+                Toast.makeText(NewOrder.this, "Order Canceled", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadCustomers() {
@@ -94,7 +118,7 @@ public class NewOrder extends AppCompatActivity {
             int quantity = Integer.parseInt(quantityString);
             double price = selectedItem.getPrice();
             double orderValue = price * quantity;
-            orderValueTextView.setText("Order Value: $" + String.format("%.2f", orderValue));
+            orderValueTextView.setText("Order Value: Rs. " + String.format("%.2f", orderValue));
         }
     }
 
@@ -104,25 +128,44 @@ public class NewOrder extends AppCompatActivity {
         String quantityString = quantityEditText.getText().toString();
         String paymentAmountString = paymentAmountEditText.getText().toString();
 
-        if (selectedCustomer != null && selectedItem != null && !quantityString.isEmpty() && !paymentAmountString.isEmpty()) {
-            int quantity = Integer.parseInt(quantityString);
-            double paymentAmount = Double.parseDouble(paymentAmountString);
-            double price = selectedItem.getPrice();
-            double orderValue = price * quantity;
-            double balanceAmount = orderValue - paymentAmount;
+        if (selectedCustomer != null && selectedItem != null) {
+            if (!quantityString.isEmpty() && !paymentAmountString.isEmpty()) {
+                int quantity = Integer.parseInt(quantityString);
+                double paymentAmount = Double.parseDouble(paymentAmountString);
+                double price = selectedItem.getPrice();
+                double orderValue = price * quantity;
+                double balanceAmount = orderValue - paymentAmount;
 
-            OrderModel order = new OrderModel();
-            order.setCustomerId(selectedCustomer.getId());
-            order.setDate("2024-01-01"); // You can replace this with the current date
-            order.setOrderValue(orderValue);
-            order.setPaymentAmount(paymentAmount);
-            order.setBalanceAmount(balanceAmount);
+                // Check if the payment amount is at least 40% of the total
+                if (paymentAmount <= orderValue) {
+                    if (paymentAmount >= orderValue * 0.4) {
+                        // Get the current date
+                        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-            long orderId = databaseDAO.addOrder(order);
-            if (orderId != -1) {
-                Toast.makeText(this, "Order saved successfully!", Toast.LENGTH_SHORT).show();
+                        OrderModel order = new OrderModel();
+                        order.setCustomerId(selectedCustomer.getId());
+                        order.setDate(currentDate);
+                        order.setOrderValue(orderValue);
+                        order.setPaymentAmount(paymentAmount);
+                        order.setBalanceAmount(balanceAmount);
+
+                        long orderId = databaseDAO.addOrder(order);
+                        if (orderId != -1) {
+                            Toast.makeText(this, "Order saved successfully!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(NewOrder.this, OrderPageActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(this, "Failed to save order.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Payment amount should be at least 40% of the total.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Check Again! Payment greater than total", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, "Failed to save order.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter quantity and payment amount.", Toast.LENGTH_SHORT).show();
             }
         }
     }

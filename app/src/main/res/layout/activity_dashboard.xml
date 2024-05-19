@@ -6,44 +6,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DashboardActivity">
-    <!-- tools:openDrawer="start" -->
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/light_white"
         android:layout_gravity="start"
-        app:headerLayout="@layout/menu_header"
+        android:background="@color/light_white"
         android:theme="@style/navigationTheme"
-        app:menu="@menu/main_menu"/>
+        app:headerLayout="@layout/menu_header"
+        app:menu="@menu/main_menu" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
-        <include
-            layout="@layout/top_bar" />
+        <include layout="@layout/top_bar" />
 
-        <Button
-            android:id="@+id/open_order_page_button"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Open Order Page" />
+            android:layout_marginTop="16dp"
+            android:text="Your Sales Statistics"
+            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/open_new_order_page_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Open New Order Page" />
+            android:layout_marginTop="16dp"
+            android:background="@drawable/barchart_card"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/targetBar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="#FF0000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="Sales Target"
+                android:textColor="@color/light_white" />
+
+            <View
+                android:id="@+id/achievementBar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="#00FF00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="Sales Achievement"
+                android:textColor="@color/light_white" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/dashboard_img"/>
+
     </LinearLayout>
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

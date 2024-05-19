@@ -2,12 +2,16 @@ package com.example.salesmanagerapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.window.OnBackInvokedDispatcher;
 
 import androidx.activity.EdgeToEdge;
@@ -20,10 +24,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.salesmanagerapp.helper.DatabaseHelper;
 import com.google.android.material.navigation.NavigationView;
 
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "DashboardActivity";
 
     // variables
     ImageView menuIcon;
@@ -31,6 +38,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     // drawer Menu
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+
+    // Bar chart views
+    View targetBar;
+    View achievementBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,27 +59,62 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navigationView = findViewById(R.id.navigation_view);
         menuIcon = findViewById(R.id.left_menu_icon);
 
+        // Bar chart views
+        targetBar = findViewById(R.id.targetBar);
+        achievementBar = findViewById(R.id.achievementBar);
+
         navigationDrawer();
 
-        Button openOrderPageButton = findViewById(R.id.open_order_page_button);
-        openOrderPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, OrderPageActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Sample values, replace with actual calculation
+        int target = 20000; // Sales target value
+        int achievement = calculateSalesAchievement(); // Sales achievement value
 
-        Button openNewOrderPageButton = findViewById(R.id.open_new_order_page_button);
-        openNewOrderPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, NewOrder.class);
-                startActivity(intent);
-            }
-        });
+        updateBarWidth(targetBar, target, target);
+        updateBarWidth(achievementBar, achievement, target);
+
+//        Button openOrderPageButton = findViewById(R.id.open_order_page_button);
+//        openOrderPageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(DashboardActivity.this, OrderPageActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        Button openNewOrderPageButton = findViewById(R.id.open_new_order_page_button);
+//        openNewOrderPageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(DashboardActivity.this, NewOrder.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
+
+    @SuppressLint("Range")
+    private int calculateSalesAchievement() {
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        int totalSales = 0;
+
+        Cursor cursor = db.rawQuery("SELECT SUM(order_value) AS total FROM orders", null);
+        if (cursor.moveToFirst()) {
+            totalSales = cursor.getInt(cursor.getColumnIndex("total"));
+        }
+        cursor.close();
+        db.close();
+
+        Log.d(TAG, "Total Sales: " + totalSales);
+        return totalSales;
+    }
+
+    private void updateBarWidth(View bar, int value, int maxValue) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) bar.getLayoutParams();
+        params.width = (int) (((double) value / maxValue) * 1000); // Adjust scaling factor as needed
+        bar.setLayoutParams(params);
+    }
+
 
     private void navigationDrawer() {
 
