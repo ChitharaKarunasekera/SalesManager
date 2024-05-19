@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SalesManagerApp"
         tools:targetApi="31">
         <activity
+            android:name=".BarChart"
+            android:exported="false" />
+        <activity
             android:name=".NewOrder"
             android:exported="false" />
         <activity

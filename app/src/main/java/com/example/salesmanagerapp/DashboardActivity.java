@@ -101,6 +101,23 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.nav_dashboard) {
+            // Handle dashboard navigation
+            // Current activity is dashboard, so no need to do anything
+        } else if (id == R.id.nav_orders) {
+            // Handle order page navigation
+            Intent intent = new Intent(this, OrderPageActivity.class);
+            startActivity(intent);
+        }
+//        else if (id == R.id.nav_new_order) {
+//            // Handle new order navigation
+//            Intent intent = new Intent(this, NewOrder.class);
+//            startActivity(intent);
+//        }
+        // Close drawer after item is selected
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

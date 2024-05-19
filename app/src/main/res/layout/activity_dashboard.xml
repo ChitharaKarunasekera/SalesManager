@@ -22,22 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:padding="20dp">
-
-            <ImageView
-                android:id="@+id/left_menu_icon"
-                android:layout_width="46dp"
-                android:layout_height="40dp"
-                android:src="@drawable/nav_bar_icon" />
-
-        </RelativeLayout>
+        <include
+            layout="@layout/top_bar" />
 
         <Button
             android:id="@+id/open_order_page_button"
@@ -53,8 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Open Order Page" />
-
+            android:text="Open New Order Page" />
     </LinearLayout>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
