@@ -59,6 +59,15 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
         });
 
+        Button openNewOrderPageButton = findViewById(R.id.open_new_order_page_button);
+        openNewOrderPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashboardActivity.this, NewOrder.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void navigationDrawer() {

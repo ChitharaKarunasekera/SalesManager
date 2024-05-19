@@ -23,4 +23,12 @@
         <item name="cornerSizeTopLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
+
+
+<!--    <resources>-->
+<!--        &lt;!&ndash; Other existing strings &ndash;&gt;-->
+
+<!--        <string name="select_customer">Select Customer</string>-->
+<!--        <string name="select_item">Select Item</string>-->
+<!--    </resources>-->
 </resources>
