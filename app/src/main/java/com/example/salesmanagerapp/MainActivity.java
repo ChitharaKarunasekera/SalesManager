@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Animation
+        // Load Animation
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         logo.setAnimation(bottomAnim);
         slogan.setAnimation(bottomAnim);
 
+        // Handler to start LoginActivity after the splash screen duration
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -61,10 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
                 startActivity(intent, options.toBundle());
-
-//                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-//                startActivity(intent);
-//                finish();
             }
         }, SPLASH_SCREEN);
     }

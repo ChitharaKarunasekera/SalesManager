@@ -28,7 +28,7 @@ public class DatabaseDAO {
 
     public void open() throws SQLException {
         Log.d(TAG, "Opening database connection...");
-        database = dbHelper.getWritableDatabase(); // This will call onCreate if the database doesn't exist
+        database = dbHelper.getWritableDatabase();
     }
 
     public void close() {

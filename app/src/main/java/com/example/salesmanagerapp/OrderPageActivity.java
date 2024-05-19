@@ -33,7 +33,7 @@ public class OrderPageActivity extends AppCompatActivity implements NavigationVi
 
     private ImageView menuIcon;
 
-    // drawer Menu
+    // Drawer menu components
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private RecyclerView recyclerViewOrders;
@@ -47,6 +47,8 @@ public class OrderPageActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_page);
+
+        // Adjust padding for window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_order_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -56,9 +58,11 @@ public class OrderPageActivity extends AppCompatActivity implements NavigationVi
         Log.d(TAG, "Activity created");
 
 
+        // Initialize RecyclerView and set its layout manager
         recyclerViewOrders = findViewById(R.id.orderRecyclerView);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(this));
 
+        // Initialize and open the database
         databaseDAO = new DatabaseDAO(this);
         databaseDAO.open();
 
@@ -94,6 +98,7 @@ public class OrderPageActivity extends AppCompatActivity implements NavigationVi
         });
     }
 
+    // Configure navigation drawer behavior and menu item click handling
     private void navigationDrawer() {
 
         // navigation drawer

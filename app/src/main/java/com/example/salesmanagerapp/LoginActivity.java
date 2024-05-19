@@ -26,10 +26,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     private LoginViewModel loginViewModel;
-    Button callSignUp, login_btn;
-    ImageView image;
-    TextView loginTitle, loginSlogan;
-    TextInputLayout  username, password;
+    private Button callSignUp, login_btn;
+    private ImageView image;
+    private TextView loginTitle, loginSlogan;
+    private TextInputLayout  username, password;
 
     private static final String BASE_URL = "http://www.axienta.lk/VantageCoreWebAPI/";
 
@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // hides status bar from screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_login);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "This is my Username: " + username_new);
                 Log.d(TAG, "Password: " + password_new);
 
-                loginViewModel.login("SR0004", "12345678");
+                loginViewModel.login(username_new, password_new);
             }
         });
 

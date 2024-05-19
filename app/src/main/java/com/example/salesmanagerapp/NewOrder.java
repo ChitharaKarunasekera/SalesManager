@@ -52,6 +52,8 @@ public class NewOrder extends AppCompatActivity {
             return insets;
         });
 
+
+        // Initialize UI components
         customerSpinner = findViewById(R.id.customerSpinner);
         itemSpinner = findViewById(R.id.itemSpinner);
         quantityEditText = findViewById(R.id.quantityEditText);
@@ -60,6 +62,8 @@ public class NewOrder extends AppCompatActivity {
         saveOrderButton = findViewById(R.id.saveOrderButton);
         cancelOrderButton = findViewById(R.id.cancelOrderButton);
 
+
+        // Initialize and open the database
         databaseDAO = new DatabaseDAO(this);
         databaseDAO.open();
 
@@ -77,16 +81,7 @@ public class NewOrder extends AppCompatActivity {
         // Save order button click listener
         saveOrderButton.setOnClickListener(v -> saveOrder());
 
-//        saveOrderButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                saveOrder();
-//                Intent intent = new Intent(NewOrder.this, OrderPageActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-
+        // Set click listener for the cancel order button
         cancelOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +92,8 @@ public class NewOrder extends AppCompatActivity {
         });
     }
 
+
+    // Load customers from the database and populate the spinner
     private void loadCustomers() {
         customers = databaseDAO.getAllCustomers();
         ArrayAdapter<Customer> customerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, customers);
@@ -104,6 +101,7 @@ public class NewOrder extends AppCompatActivity {
         customerSpinner.setAdapter(customerAdapter);
     }
 
+    // Load items from the database and populate the spinner
     private void loadItems() {
         items = databaseDAO.getAllItems();
         ArrayAdapter<Item> itemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
@@ -111,6 +109,7 @@ public class NewOrder extends AppCompatActivity {
         itemSpinner.setAdapter(itemAdapter);
     }
 
+    // Update the order value based on the selected item and quantity
     private void updateOrderValue() {
         Item selectedItem = (Item) itemSpinner.getSelectedItem();
         String quantityString = quantityEditText.getText().toString();
@@ -122,6 +121,7 @@ public class NewOrder extends AppCompatActivity {
         }
     }
 
+    // Save the order to the database
     private void saveOrder() {
         Customer selectedCustomer = (Customer) customerSpinner.getSelectedItem();
         Item selectedItem = (Item) itemSpinner.getSelectedItem();
@@ -170,6 +170,7 @@ public class NewOrder extends AppCompatActivity {
         }
     }
 
+    // Close the database connection when the activity is destroyed
     @Override
     protected void onDestroy() {
         super.onDestroy();

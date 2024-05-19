@@ -32,12 +32,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     private static final String TAG = "DashboardActivity";
 
-    // variables
-    ImageView menuIcon;
+    // UI components for the drawer menu
+    private ImageView menuIcon;
 
     // drawer Menu
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     // Bar chart views
     View targetBar;
@@ -72,26 +72,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         updateBarWidth(targetBar, target, target);
         updateBarWidth(achievementBar, achievement, target);
 
-//        Button openOrderPageButton = findViewById(R.id.open_order_page_button);
-//        openOrderPageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DashboardActivity.this, OrderPageActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        Button openNewOrderPageButton = findViewById(R.id.open_new_order_page_button);
-//        openNewOrderPageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DashboardActivity.this, NewOrder.class);
-//                startActivity(intent);
-//            }
-//        });
-
     }
 
+    // Calculate total sales achievement by summing order values from the database
     @SuppressLint("Range")
     private int calculateSalesAchievement() {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
@@ -109,6 +92,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         return totalSales;
     }
 
+    // Update the width of a bar view based on the value and maximum value
     private void updateBarWidth(View bar, int value, int maxValue) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) bar.getLayoutParams();
         params.width = (int) (((double) value / maxValue) * 1000); // Adjust scaling factor as needed
@@ -116,6 +100,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
 
+    // Set up the navigation drawer
     private void navigationDrawer() {
 
         // navigation drawer
@@ -135,6 +120,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         });
     }
 
+    // Handle back button press to close drawer if open
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
