@@ -8,7 +8,7 @@ SalesManager is a mobile application designed to manage sales activities. The ap
   + **Annimations**
   + **Login Page**
   + **Left Navigation Menu**
-  + **Dashboard Page: ** Displays a bar chart with sales data that adjusts based on new orders.
+  + **Dashboard Page:** Displays a bar chart with sales data that adjusts based on new orders.
   + **Order Page:** Shows previously created orders with details such as customer name, date, order value, etc.
   + **New Order:** Allows users to record new orders
 
